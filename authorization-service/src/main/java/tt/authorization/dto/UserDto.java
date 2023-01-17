@@ -10,10 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-
     @JsonProperty(access = Access.READ_ONLY)
     private Long id;
 
     private String username;
+
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
+
+    @JsonProperty(access = Access.READ_ONLY)
+    private boolean enabled;
 }
