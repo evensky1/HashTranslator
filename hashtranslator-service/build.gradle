@@ -12,7 +12,7 @@ repositories {
 group = 'tt.hashtranslator'
 version = '0.0.1'
 
-sourceCompatibility = '1.8'
+sourceCompatibility = '17'
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -25,6 +25,8 @@ jar {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:3.0.3'
+
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
