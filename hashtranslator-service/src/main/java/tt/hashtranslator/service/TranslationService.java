@@ -1,8 +1,10 @@
 package tt.hashtranslator.service;
 
-import reactor.core.publisher.Mono;
+import java.util.List;
+import java.util.Map.Entry;
+import reactor.core.publisher.Flux;
 
 public interface TranslationService {
 
-    Mono<String> translateHash(String hash);
+    Flux<Entry<String, String>> translateHashes(List<String> hashes);
 }

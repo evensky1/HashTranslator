@@ -1,10 +1,11 @@
 package tt.hashtranslator.service;
 
-import java.util.List;
 import reactor.core.publisher.Mono;
+import tt.hashtranslator.document.Application;
 import tt.hashtranslator.dto.HashApplication;
 
 public interface ApplicationService {
 
-    Mono<List<String>> handleApplication(HashApplication hashApplication);
+    Mono<Application> handleApplication(HashApplication hashApplication);
+    Mono<Application> getApplication(String id);
 }
