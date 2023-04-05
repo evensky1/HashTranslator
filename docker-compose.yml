@@ -3,18 +3,24 @@ version: "2"
 services:
   hash-translator:
     build:
-      context: hashtranslator-service
+      context: hashtranslator-service/
     restart: on-failure
     environment:
-      HASHTRANSLATOR_HELLO_TEMPLATE: configured hashtranslator hello for %s from %s
-    ports:
-      - "8080:8080"
+      EMAIL: fromthedeepsize@gmail.com
+      HASH_TYPE: md5
+      SECRET_KEY: b66ed0a38d36f3c3
+    expose:
+      - "8082"
+    depends_on:
+      - mongo
   authorization-service:
     build:
-      context: authorization-service
+      context: authorization-service/
     restart: on-failure
     environment:
-      AUTHORIZATION_HELLO_TEMPLATE: configured authorization hello for %s from %s
+      TRANSLATION_SERVICE_URL: http://hash-translator:8082
+    ports:
+      - "8081:8081"
     depends_on:
       - postgres
   postgres:
@@ -24,8 +30,17 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+  mongo:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+
 volumes:
   postgres: {}
+  mongo: {}
