@@ -1,6 +1,7 @@
 package tt.hashtranslator.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             .build();
 
         return applicationRepository.save(application)
-            .doOnSuccess(a -> processApplication(hashApplication, a));
+            .doOnSuccess(createdApplication ->
+                processApplication(hashApplication.getHashes(), createdApplication));
     }
 
     @Override
@@ -36,9 +38,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationRepository.findById(id);
     }
 
-    private void processApplication(HashApplication hashApplication, Application application) {
+    private void processApplication(List<String> hashes, Application application) {
 
-        translationService.translateHashes(hashApplication.getHashes())
+        translationService.translateHashes(hashes)
             .doOnNext(ent -> application.getHashes().put(ent.getKey(), ent.getValue()))
             .doOnComplete(() -> application.setStatus(ApplicationStatus.COMPLETE))
             .doOnError(e -> application.setStatus(ApplicationStatus.ERROR))
